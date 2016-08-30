@@ -3,14 +3,14 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from os import curdir, sep
 import cgi
 
+# nlp = __import__(input('nlp'))
+from nlp import *
+
 PORT_NUMBER = 8080
 
 # This class will handles any incoming request from
 # the browser
 class RequestHandler(BaseHTTPRequestHandler):
-
-
-    def getHeaderVards(self):
 
     # Handler for the GET requests
     def do_GET(self):
@@ -54,20 +54,20 @@ class RequestHandler(BaseHTTPRequestHandler):
     #USE THIS OJASH
     # Handler for the POST requests
     def do_POST(self):
-
-        if self.path == "/similarity":
-            form = cgi.FieldStorage(fp=self.rfile, headers=self.headers, environ= {
+        form = cgi.FieldStorage(fp=self.rfile, headers=self.headers, environ= {
                 'REQUEST_METHOD' : 'POST',
                 'CONTENT_TYPE': self.headers['Content-Type']
             })
+
+        if self.path == "/similarity":
+
             threshold = form['threshold'].value
             q1 = form['string1'].value
             q2 = form['string2'].value
-            print "First is: %s" % q1
-            #result = sentence_similarity(q1, q2)
+            result = basic_paraphrase_recognizer(q1, q2, threshold)
             self.send_response(200)
             self.end_headers()
-            self.wfile.write({'firstString': q1, 'secondString' : q2, 'threshold' : threshold})
+            self.wfile.write({'result': result})
             return
 
 
