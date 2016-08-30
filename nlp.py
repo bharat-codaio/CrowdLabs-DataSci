@@ -47,9 +47,9 @@ def basic_paraphrase_recognizer(sentence1, sentence2, similarityThreshold):
 
 	W = np.matrix(W)
 	cm = np.matrix(count_matrix)
+	similarity = cm[0]*W*cm[1].T/(np.linalg.norm(cm[0])*np.linalg.norm(cm[1]))
 
-	# Return 1 if similar, return 0 if not similar
-	if (cm[0]*W*cm[1].T/(np.linalg.norm(cm[0])*np.linalg.norm(cm[1])) > similarityThreshold):
+	if similarity > similarityThreshold:
 		return 1
 	else:
 		return 0
