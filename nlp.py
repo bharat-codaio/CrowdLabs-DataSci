@@ -19,22 +19,10 @@ def basic_paraphrase_recognizer(sentence1, sentence2, similarityThreshold):
     count_matrix[count_matrix > 0] = 1 #(Set all count values > 1) = 1
 
     word_list = vectorizer.get_feature_names()
-    num = len(word_list)
-    W = np.zeros([num,num])
-
-    for i in range(num):
-        for j in range(num):
-
-            s1 = wn.synsets(word_list[i])
-            s2 = wn.synsets(word_list[j])
-
-            if s1 != [] and s2 != [] and s1[0]._pos == s2[0]._pos:
-                W[i][j] = wn.jcn_similarity(s1[0], s2[0], brown_ic)
-            else:
-                W[i][j] = 0
-
+    print(word_list)
     num = len(word_list)
     W = [[0 for i in range(num)] for j in range(num)]
+    
     for i in range(num):
         for j in range(num):
             s1 = wn.synsets(word_list[i])
@@ -45,10 +33,13 @@ def basic_paraphrase_recognizer(sentence1, sentence2, similarityThreshold):
                 W[i][j] = 1
             else:
                 W[i][j] = 0
-
+            if W[i][j] == None:
+                W[i][j] = 0
+    
     W = np.matrix(W)
     cm = np.matrix(count_matrix)
-    similarity = cm[0]*W*cm[1].T/(np.linalg.norm(cm[0])*np.linalg.norm(cm[1]))
+    top =  cm[0]*W*cm[1].T
+    similarity = top/(np.linalg.norm(cm[0])*np.linalg.norm(cm[1]))
 
     if float(similarity) > float(similarityThreshold):
         return 1
