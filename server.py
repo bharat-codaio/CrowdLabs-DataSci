@@ -64,6 +64,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             threshold = form['threshold'].value
             q1 = form['string1'].value
             q2 = form['string2'].value
+            print(q2)
             result = basic_paraphrase_recognizer(q1, q2, threshold)
             self.send_response(200)
             self.end_headers()
@@ -75,7 +76,7 @@ try:
     # Create a web server and define the handler to manage the
     # incoming request
     server = HTTPServer(('', PORT_NUMBER), RequestHandler)
-    print 'Started httpserver on port ', PORT_NUMBER
+    ##print 'Started httpserver on port ', PORT_NUMBER
 
     # Wait forever for incoming htto requests
     server.serve_forever()

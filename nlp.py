@@ -11,7 +11,7 @@ brown_ic = wordnet_ic.ic('ic-brown.dat')
 def basic_paraphrase_recognizer(sentence1, list_of_sentences, similarityThreshold):
     index = -1
     max_sim = 0
-    for count,sentence2 in enumterate(list_of_sentences):
+    for count,sentence2 in enumerate(list_of_sentences):
         corpus = [sentence1,sentence2]
         vectorizer = CountVectorizer(min_df=1)
         tf = vectorizer.fit_transform(corpus)
@@ -20,7 +20,7 @@ def basic_paraphrase_recognizer(sentence1, list_of_sentences, similarityThreshol
         count_matrix[count_matrix > 0] = 1 #(Set all count values > 1) = 1
 
         word_list = vectorizer.get_feature_names()
-        print(word_list)
+        ##print(word_list)
         num = len(word_list)
         W = [[0 for i in range(num)] for j in range(num)]
         
@@ -41,6 +41,7 @@ def basic_paraphrase_recognizer(sentence1, list_of_sentences, similarityThreshol
         cm = np.matrix(count_matrix)
         top =  cm[0]*W*cm[1].T
         similarity = top/(np.linalg.norm(cm[0])*np.linalg.norm(cm[1]))
+        print(similarity, max_sim)
         if similarity > max_sim:
             max_sim = similarity
             index = count
