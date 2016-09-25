@@ -41,12 +41,14 @@ def basic_paraphrase_recognizer(sentence1, list_of_sentences, similarityThreshol
         cm = np.matrix(count_matrix)
         top =  cm[0]*W*cm[1].T
         similarity = top/(np.linalg.norm(cm[0])*np.linalg.norm(cm[1]))
-        if max_sim
+        if similarity > max_sim:
+            max_sim = similarity
+            index = count
 
-    if float(similarity) > float(similarityThreshold):
-        return 1
+    if float(max_sim) > float(similarityThreshold):
+        return index
     else:
-        return 0
+        return -1
 
 
 
