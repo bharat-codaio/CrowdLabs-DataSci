@@ -41,7 +41,6 @@ def basic_paraphrase_recognizer(sentence1, list_of_sentences, similarityThreshol
         cm = np.matrix(count_matrix)
         top =  cm[0]*W*cm[1].T
         similarity = top/(np.linalg.norm(cm[0])*np.linalg.norm(cm[1]))
-        print(similarity, max_sim)
         if similarity > max_sim:
             max_sim = similarity
             index = count

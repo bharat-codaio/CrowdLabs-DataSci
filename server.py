@@ -1,6 +1,7 @@
 #!/usr/bin/python
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from os import curdir, sep
+from ctypes import c_uint32
 import cgi
 
 # nlp = __import__(input('nlp'))
@@ -68,7 +69,9 @@ class RequestHandler(BaseHTTPRequestHandler):
             result = basic_paraphrase_recognizer(q1, q2, threshold)
             self.send_response(200)
             self.end_headers()
-            self.wfile.write({'result': result})
+            print('result is')
+            print(result)
+            self.wfile.write(str(result).encode())
             return
 
 
@@ -82,6 +85,6 @@ try:
     server.serve_forever()
 
 except KeyboardInterrupt:
-    print '^C received, shutting down the web server'
+    print('^C received, shutting down the web server')
     server.socket.close()
 
