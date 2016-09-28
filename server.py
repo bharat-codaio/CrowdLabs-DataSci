@@ -65,6 +65,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             threshold = form['threshold'].value
             q1 = form['string1'].value
             q2 = form['string2'].value
+            q2 = q2.split('%')
             print(q2)
             result = basic_paraphrase_recognizer(q1, q2, threshold)
             self.send_response(200)
