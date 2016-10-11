@@ -3,6 +3,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from os import curdir, sep
 from ctypes import c_uint32
 import cgi
+from flask import request
 
 # nlp = __import__(input('nlp'))
 from nlp import *
@@ -55,16 +56,16 @@ class RequestHandler(BaseHTTPRequestHandler):
     #USE THIS OJASH
     # Handler for the POST requests
     def do_POST(self):
-        form = cgi.FieldStorage(fp=self.rfile, headers=self.headers, environ= {
-                'REQUEST_METHOD' : 'POST',
-                'CONTENT_TYPE': self.headers['Content-Type']
-            })
+        # form = cgi.FieldStorage(fp=self.rfile, headers=self.headers, environ= {
+        #         'REQUEST_METHOD' : 'POST',
+        #         'CONTENT_TYPE': self.headers['Content-Type']
+        #     })
 
         if self.path == "/similarity":
 
-            threshold = form['threshold'].value
-            q1 = form['string1'].value
-            q2 = form['string2'].value
+            threshold = request.form['threshold']
+            q1 = request.form['string1']
+            q2 = request.form['string2']
             q2 = q2.split('%')
             print(q2)
             result = basic_paraphrase_recognizer(q1, q2, threshold)
