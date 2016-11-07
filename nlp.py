@@ -27,14 +27,14 @@ def basic_paraphrase_recognizer(sentence1, list_of_sentences, similarityThreshol
             for j in range(num):
                 s1 = wn.synsets(word_list[i])
                 s2 = wn.synsets(word_list[j])
+  
                 if s1 != [] and s2 != [] and s1[0]._pos == s2[0]._pos:
-                    W[i][j] = wn.wup_similarity(s1[0], s2[0], brown_ic)
-                elif i == j:
-                    W[i][j] = 1
+                    W[i][j] = wn.jcn_similarity(s1[0], s2[0], brown_ic)
                 else:
                     W[i][j] = 0
-                if W[i][j] == None:
-                    W[i][j] = 0
+                if i == j:
+                    W[i][j] = 1
+
         
         W = np.matrix(W)
         cm = np.matrix(count_matrix)
