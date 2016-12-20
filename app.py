@@ -24,6 +24,22 @@ def similarity():
     result = basic_paraphrase_recognizer(q1, q2, threshold)
     return json.dumps(result)
 
+@app.route('/clustering', methods=['POST'])
+def clustering():
+    jsonObj = request.get_json()
+    matrix = jsonObj.get('matrix')
+    students = jsonObj.get('students')
+    votes = jsonObj.get('votes')
+    result = full_prop(matrix, students, votes, 1)
+    print(result)
+    return json.dumps(result)
+
+@app.route('/test', methods=['POST'])
+def test():
+    jsonObj = request.get_json()
+    print(jsonObj)
+    return json.dumps(jsonObj)
+
 # Run the app :)
 if __name__ == '__main__':
   app.run(
